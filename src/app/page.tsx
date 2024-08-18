@@ -13,8 +13,6 @@ export default function Home() {
     const fetchBlogs = async () => {
       try {
         const response = await getAllBlog();
-        
-
         const res = await response.blogs;
         setOtherBlogs(res);
       } catch (error) {

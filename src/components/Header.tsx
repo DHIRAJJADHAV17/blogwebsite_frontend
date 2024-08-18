@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 // Adjust the import path based on your project structure
@@ -16,8 +16,15 @@ type Props = {
 };
 
 const Header = ({ showhero = false }: Props) => {
-  const dispatch = useAppDispatch();
-  const userdata = useAppSelector((state) => state.user);
+  const [islogin, setlogin] = useState<boolean>(false);
+  useEffect(() => {
+    const userdata = localStorage.getItem("user");
+    if (userdata) {
+      setlogin(true);
+    } else {
+      setlogin(false);
+    }
+  }, [islogin]);
 
   return (
     <>
@@ -26,7 +33,7 @@ const Header = ({ showhero = false }: Props) => {
           <h2 className="text-2xl font-bold tracking-tight text-primary">
             <Link href="/">My_Blog</Link>
           </h2>
-          <div className="flex">{userdata ? <MainNav /> : <AuthNav />}</div>
+          <div className="flex">{islogin ? <MainNav /> : <AuthNav />}</div>
         </div>
       </div>
       {showhero && <Hero />}

@@ -16,6 +16,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import withAuth from "@/lib/hof/withauth";
 
 const formSchema = z.object({
   content: z.string().min(5, "content is required"),
@@ -46,7 +47,6 @@ const Page = () => {
         try {
           const res = await getcomment(id.toString());
           const respo = await res.comments;
-          console.log(respo);
 
           setComment(respo);
         } catch (error) {
@@ -101,9 +101,10 @@ const Page = () => {
           <ScrollArea className=" h-80 rounded-md border ">
             <div className="p-4 ">
               <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
-              {commented.map((max: any, index: number) => (
-                <CommentCard key={index} data={max} />
-              ))}
+              {commented &&
+                commented.map((max: any, index: number) => (
+                  <CommentCard key={index} data={max} />
+                ))}
             </div>
           </ScrollArea>
           <Form {...form}>
@@ -138,4 +139,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);
